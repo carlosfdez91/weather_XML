@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1 -strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>El Tiempo en Andalucia</title >
+	</head>
+		<body>
+			<h1>El Tiempo en Andalucia</h1>
+			{% set cont = 0 %}
+			{%- for capital in capitales %}
+			<h2>{{ capital }}</h2>
+				<ul>
+					<li>Temperatura minima prevista: {{ temp_min[cont] }} C</li>
+					<li>Temperatura maxima prevista: {{ temp_max[cont] }} C</li>
+					<li>Viento: {{ speed[cont] }} Km/h Direccion {{ direccion_viento[cont] }}</li>
+				</ul>
+				{% set cont = cont + 1 %}
+				{%- endfor %}
+		</body>
+</html>
