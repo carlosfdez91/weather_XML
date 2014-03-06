@@ -4,7 +4,7 @@ import json
 from lxml import etree
 from jinja2 import Template
 plantilla = open("plantilla.html","r")
-capitales = ['Almeria','Cadiz','Cordoba','Huelva','Jaen','Malaga','Sevilla']
+capitales = ['Almeria','Cadiz','Cordoba','Huelva','Jaen','Sevilla']
 
 html = ''
 for linea in plantilla:
@@ -40,12 +40,27 @@ def orientacion(direccion):
 			return 'NO'
 
 for capital in capitales:
-	valores = {'q': '%s' % capital,'mode': 'xml','units': 'metric','lang': 'es'}
+	valores = {'q': '%s,spain' % capital,'mode': 'xml','units': 'metric','lang': 'es'}
 	resultado = requests.get('http://api.openweathermap.org/data/2.5/weather?',params=valores)
-#resultado = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Seville&mode=xml&units=metric&lang=es')
+	raiz = etree.fromstring(resultado.text.encode("utf-8"))
 
-arbol = etree.parse(resultado.text)
-print resultado.text
+	city = raiz.find("city")
+	ciudad = city.attrib["name"]
+	temper_min = raiz.find("temperature")
+	temp_min = temper_min.attrib["min"]
+	temper_max = raiz.find("temperature")
+	temp_max = temper_max.attrib["max"]
+	viento_valor = raiz.find("wind/speed")
+	viento_v = viento_valor.attrib["value"]
+	viento_codigo = raiz.find("wind/direction")
+	viento_c  = viento_codigo.attrib["code"]
+	print ciudad
+	print temp_min
+	print temp_max
+	print viento_v
+	print viento_c
+
+	#print (resultado.text)
 
 	#if dicc == {u'message': u'Error: Not found city', u'cod': u'404'}:
 	#	pasar = False
